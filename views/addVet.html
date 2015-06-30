@@ -1,0 +1,165 @@
+<html >
+<head>
+  <title>Add a veteran</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.min.css">
+  <script src="/vendor/jquery-2.1.3.min.js"></script>
+  <script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src= "/vendor/angular/angular.min.js"></script>
+  
+<script type="text/javascript">
+$(document).ready(function(){
+
+	
+	//Callback handler for form submit event
+	$("#formUploadVet").submit(function(e)
+	{
+	 
+	    var formObj = $(this);
+	    var formURL = formObj.attr("action");
+	    var formData = new FormData(this);
+	    $.ajax({
+	        url: formURL,
+	    type: 'POST',
+	        data:  formData,
+	    mimeType:"multipart/form-data",
+	    contentType: false,
+	        cache: false,
+	        processData:false,
+	    success: function(data)
+	    {
+	 		alert(data);
+	    },
+	     error: function(jqXHR, textStatus, errorThrown) 
+	     {
+	     }          
+	    });
+	    e.preventDefault(); //Prevent Default action. 
+	  //  e.unbind();
+	}); });
+</script>
+</head>
+<body>
+<% include header.html %>
+
+<div ng-app="addVet" ng-controller="addVetController" ng-init="initForm()">
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Manage Veterans</a>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#" ng-click="showPage('addVet')"  ng-model='rankPageLink'>Add a Veteran</a></li>
+        <li><a href="#" ng-click="showPage('uploadVet')">Upload veteran File</a></li>
+        <li><a href="#" ng-click="showPage('viewVet')">Search Veteran</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<div class="container" ng-show="(page=='addVet')">
+	<div class="jumbotron">
+		<form name="form"  class="form css-form">
+			<div class="panel panel-primary">
+			<div class="panel-heading">IDs:</div>
+			<div class="panel-body"	>
+			<div class="row">
+				<div class="col-md-6">
+					<label for="add_vet_sNum">Service Num:</label>
+					<input type="number" id="add_vet_sNum" class="form-control" type="text" ng-model="add.sNum" name="sNum"/>
+										<span style="color:red" ng-show="form.$submitted ||(form.sNum.$dirty && (form.sNum.$invalid || form.sNum.$error.required))">Please enter Membership Number</span>
+				</div>
+				<div class="col-md-6">
+					<label for="add_vet_mNum">Membership Num:</label>
+					<input type="number"  id="add_vet_mNum" class="form-control" type="text" ng-model="add.mNum" name="mNum"/>
+					<span style="color:red" ng-show="form.$submitted ||(form.mNum.$dirty && (form.mNum.$invalid || form.mNum.$error.required))">Please enter Membership Number</span>
+				</div>
+			</div></div></div>
+
+			
+			<div class="panel panel-info">
+			<div class="panel-heading">Personal:</div>
+			<div class="panel-body"	>
+				<div class="col-md-3"><label for="add_vet_title">Title</label><select id="add_vet_title" class="form-control" type="text" ng-model="add.title">
+				<option>Mr</option>
+				<option>Mrs</option>
+				<option>Miss</option>
+				<option>Sr.</option>
+				<option>Jr.</option>
+				<option>Lt.</option>
+				<option>Brg.</option>
+				</select></div>
+				<div class="col-md-3"><label for="add_vet_fName">First Name</label><input id="add_vet_fName" class="form-control" type="text" ng-model="add.fName"/></div>
+				<div class="col-md-3"><label for="add_vet_lName">Last Name</label><input id="add_vet_lName" class="form-control" type="text" ng-model="add.lName"/></div>
+				<div class="col-md-3"><label for="add_vet_gender">Gender</label><select name="gender" id="add_vet_Gender" class="form-control" type="text" ng-model="add.gender" >
+				<option value="M">Male</option>
+				<option value="F">Female</option>
+				</select>
+				<span style="color:red" ng-show="form.$submitted|| (form.gender.$invalid || form.gender.$error.required)">Please Choose a Gender</span>
+				</div>
+				<div class="col-md-3"><label for="add_vet_dobr">Date of Birth:</label><input id="add_vet_dobr" class="form-control" type="text" ng-model="add.dobr"/></div>
+				<div class="col-md-3"><label for="add_vet_dodc">Date of Decease:</label><input id="add_vet_dode" class="form-control" type="text" ng-model="add.dode"/></div>
+			</div>
+			</div>					
+			
+			<div class="panel panel-info">
+			<div class="panel-heading">Personal:</div>
+			<div class="panel-body"	>
+			<div class="row">				
+			
+				<div class="col-md-4"><label for="add_vet_addr1">Address1:</label><input id="add_vet_addr1" class="form-control" type="text" ng-model="add.addr1"/></div>
+				<div class="col-md-4"><label for="add_vet_addr2">Address2:</label><input id="add_vet_addr2" class="form-control" type="text" ng-model="add.addr2"/></div>
+				<div class="col-md-4"><label for="add_vet_addr3">Address3:</label><input id="add_vet_addr1" class="form-control" type="text" ng-model="add.addr3"/></div>				
+			</div></div></div>
+			
+		
+			
+			<div class="panel panel-info">
+			<div class="panel-heading">Service:</div>
+			<div class="panel-body"	>
+			<div class="row">				
+				<div class="col-md-3"><label for="add_vet_rankCode">Rank:</label><select id="add_vet_rankCode" class="form-control" type="text" ng-model="add.rankCode">
+				</select></div>
+				<div class="col-md-3"><label for="add_vet_tradeCd">Trade/Branch:</label><input id="add_vet_tradeCd" class="form-control" type="text" ng-model="add.tradeCd"/></div>											
+				<div class="col-md-3"><label for="add_vet_dojn">Date of Joining:</label><input id="add_vet_dojn" class="form-control" type="text" ng-model="add.dob"/></div>				
+				<div class="col-md-3"><label for="add_vet_dods">Date of Discharge:</label><input id="add_vet_dods" class="form-control" type="text" ng-model="add.dods"/></div>				
+			</div></div></div>
+			<div class="row">
+				<div class="col-md-4"><button type="submit" class="btn btn-info"> Add </button></div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="container" ng-show="(page=='uploadVet')">
+	<div class="jumbotron">
+		<section>
+			<div id ='frmUploadVet'>
+				<form id ='formUploadVet'  
+				action='/api/upload'  
+				enctype='multipart/form-data'  
+				accept="csv"   
+				method="post"> 
+					<label>Filename</label>
+					<input name='x' type="file" id='txtFileUpload' />
+					<input type="submit" id='txtFileUpload' value='Upload' />
+				</form>
+			</div>
+		</section>
+	</div>
+</div>
+
+    
+        
+ <script src="/scripts/addVet_ng.js"></script>
+ </div>
+ 
+</body>
+
+</html>
+    

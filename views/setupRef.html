@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Case</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.min.css">
+  <script src="/vendor/jquery-2.1.3.min.js"></script>
+  <script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src= "/vendor/angular/angular.min.js"></script>
+  
+</head>
+<body ng-app="afpmsSetup" ng-controller="setupController" ng-init="initSetup()">
+<% include header.html %>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">WebSiteName</a>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#" ng-click="showPage('ranks')"  ng-model='rankPageLink'>Ranks</a></li>
+        <li><a href="#" ng-click="showPage('ppo')">PPO</a></li>
+        <li><a href="#" ng-click="showPage('decors')">Decorations</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+<div class="container" ng-show="(page=='decors')">
+  <div class="jumbotron">
+  <p class="text-info"> Decorations</p>
+  <div class="row">
+    <div class="col-md-3">
+		<input type="text" placeholder="Decor code" ng-model="decorCode"/>
+	</div>
+	<div class="col-md-3">
+		<input type="text" placeholder="Decor Name" ng-model="decorName"/>
+	</div>
+	<div class="col-md-3">
+		<input type="text" placeholder="Description" ng-model="decorDescr"/>
+	</div>
+	<div class="col-md-3">
+		<button class="btn-info" ng-click="addRefObj('decors')">Add </button>
+	</div>
+	
+	<table class="table table-hover" >
+	<thead>
+		<th>Decor Code</th>
+		<th>Decor Name</th>
+		<th>Description</th>	
+	</thead>
+	<tbody ng-repeat = "i in refObjArray">
+		<tr>
+		<td><input type="checkbox" ng-model="i.objSelected" ng-change="selectRefObj($index)"/></td> 
+		<td><input type="text" ng-class="active" ng-model="i.decorCode" ng-change = "changeRefObj($index)" ng-disabled="!if(1==1)" /></td>
+		<td><input type="text" ng-model="i.decorName" ng-change = "changeRefObj($index)" ng-disabled="!isObjEditable($index)" /></td>
+		<td><input type="text" ng-model="i.decorDescr" ng-change = "changeRefObj($index)" ng-disabled="!isObjEditable($index)" /></td>
+		<td>
+			<button class="btn btn-default" ng-click="editObj($index)">
+				<span class="glyphicon glyphicon-pencil"></button></td>		
+				
+		</tr>
+	</tbody>
+	</table>
+  </div>
+  </div>
+  <button class="btn btn-default" ng-click="deleteRefObj('decors')" ng-show="objSelectedCount>0">Delete:<span class="glyphicon glyphicon-delete"></span></button>
+  <button class="btn btn-default" ng-click="updateRefObj('decors')">
+				Save<span class="glyphicon glyphicon-save"></button>
+				
+</div>
+
+<div class="container" ng-show="(page=='ranks')">
+  <div class="jumbotron">
+  <p class="text-info"> Ranks</p>
+  <div class="row">
+    <div class="col-md-3">
+		<input type="text" placeholder="Rank code" ng-model="rankCode"/>
+	</div>
+	<div class="col-md-3">
+		<input type="text" placeholder="Rank Name" ng-model="rankName"/>
+	</div>
+	<div class="col-md-3">
+		<input type="text" placeholder="Description" ng-model="rankDescr"/>
+	</div>
+	<div class="col-md-3">
+		<button class="btn-info" ng-click="addRefObj('ranks')">Add </button>
+	</div>
+	
+	<table class="table table-hover" >
+	<thead>
+		<th>Decor Code</th>
+		<th>Decor Name</th>
+		<th>Description</th>	
+	</thead>
+	<tbody ng-repeat = "i in refObjArray">
+		<tr>
+		<td><input type="checkbox" ng-model="i.objSelected" ng-change="selectRefObj($index)"/></td> 
+		<td><input type="text" ng-model="i.rankCode" ng-change = "changeRefObj($index)" ng-disabled="!if(1==1)" /></td>
+		<td><input type="text" ng-model="i.rankName" ng-change = "changeRefObj($index)" ng-disabled="!isObjEditable($index)" /></td>
+		<td><input type="text" ng-model="i.rankDescr" ng-change = "changeRefObj($index)" ng-disabled="!isObjEditable($index)" /></td>
+		<td>
+			<button class="btn btn-default" ng-click="editObj($index)">
+				<span class="glyphicon glyphicon-pencil"></button></td>
+				
+		</tr>
+	</tbody>
+	</table>
+  </div>
+  </div>
+  <button class="btn btn-default" ng-click="deleteRefObj('ranks')" ng-show="objSelectedCount>0">Delete:<span class="glyphicon glyphicon-delete"></span></button>
+  <button class="btn btn-default" ng-click="updateRefObj('ranks')">
+				Save<span class="glyphicon glyphicon-save"></button>
+				
+</div>
+  <script type="text/javascript" src="/scripts/setupScript.js">
+   
+  </script>
+</body>
+</html>

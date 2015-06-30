@@ -1,0 +1,49 @@
+<html>
+<head>
+<meta charset="utf-8">
+<script src="jquery-2.1.3.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+$("#h1").val("OM..");
+//alert('ss');	
+});
+
+function getData() {
+$("#txt1").val("OM..");
+
+	$.ajax({url:'/data'
+	,success:function (data) {
+		var vets = [];
+		$.each(data, function (key,val) {
+			vets.push("<h2 id='" + key + "'>" + val + "</h2>" );
+				});
+				$( "<h1/>", {
+				    "class": "my-new-list",
+				    html: vets.join( "" )
+				  }).appendTo( "body" );
+				}		
+		
+	,error:function () {
+	$("#txt1").val("OOps");}	
+	});
+	}
+
+</script>    
+
+</head>
+<body>
+    <header>    
+		<a href = "index.html">Home</a>
+		<a href='searchVet'>Search Veteran</a>
+		<a href='/addVet'>Search Veteran</a>
+    </header>
+    
+    <section>
+		<h1 id="h1"></h1>
+		<input type="text" id ="txt1"/>
+		<input type="button" id="btn1" onclick="getData();"/>
+    </section>
+</body>
+
+</html>
+    

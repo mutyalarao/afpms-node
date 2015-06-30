@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<!--
+1.Setup Categories
+ 1a.Add/view all categories [Rank,effdt, Group, category ]
+2.Manage Circulars
+ 2a. search by effdt, circular number, PPO type. [Show a table, editable]
+ (X)2b. Add a circular [Effdt, PPO, category, service years, ]
+ 2c. Upload from CSV 
+
+3.Query veterans
+  3a.search by circular num 
+    
+-->
+<html lang="en">
+<head>
+  <title>AFPMS Circulars</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.min.css">
+  <script src="/vendor/jquery-2.1.3.min.js"></script>
+  <script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src= "/vendor/angular/angular.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+
+	$('#busyGIF').hide();
+	//Callback handler for form submit event
+	$("#formUploadCircular").submit(function(e)
+	{
+	 
+	    var formObj = $(this);
+	    var formURL = formObj.attr("action");
+	    var formData = new FormData(this);
+		var ppoType=$('#ppoType').val();		
+		var circEffdt=$('#circEffdt').val();		
+		var penRateType=$('#penRateType').val();		
+		var circNum=$('#circNum').val();		
+		var circRemarks=$('#circRemarks').val();
+		//var fileUpload = $('#txtFileUpload');		
+		var fileUpload = document.getElementById('txtFileUpload');		
+		formData.append('uploadItem','circular');
+		formData.append('ppoType',ppoType);
+		formData.append('circEffdt',circEffdt);
+		formData.append('penRateType',penRateType);
+		formData.append('circNum',circNum);
+		formData.append('circRemarks',circRemarks);
+		alert(fileUpload.files.length);
+	
+		if(ppoType=='' || circEffdt=='' || penRateType=='' || circNum==''||fileUpload.files.length<=0)
+		alert('Please fill all the fields');
+		else
+		{
+			//formURL += "?ppoType="++"&effdt="+
+				$('#busyGIF').show();
+			$.ajax({
+				url: formURL,
+			type: 'POST',
+				data:  formData,
+			mimeType:"multipart/form-data",
+			
+			contentType: false,
+				cache: false,
+				processData:false,
+			success: function(data)
+			{
+				alert(data);
+				$('#busyGIF').hide();
+			},
+			 error: function(jqXHR, textStatus, errorThrown) 
+			 {
+			 }          
+			});
+			e.preventDefault(); //Prevent Default action. 
+	  //  e.unbind();
+	 }//end of else
+	 e.preventDefault(); //Prevent Default action. 
+	 return;
+	}); //end of submit function
+	});
+</script>
+</head>
+<body ng-app="afpmsCircular" ng-controller="circularController" ng-init="initSetup()">
+<% include header.html %>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      
+	   <a class="navbar-brand dropdown-toggle" data-toggle="dropdown" href="#">Circular <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Submenu 1-1</a></li>
+            <li><a href="#">Submenu 1-2</a></li>
+            <li><a href="#">Submenu 1-3</a></li>                        
+          </ul>
+      
+    </div>
+    <div>
+	
+	   <ul class="nav navbar-nav">     
+        <li><a href="#" ng-click="showPage('circCategory')">Circular Categories</a></li>
+        <li><a href="#" ng-click="showPage('circularUpload')">Upload Circular</a></li>
+        <li><a href="#" ng-click="showPage('circViewer')">View Circular table</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+<div class="container" ng-show="(page=='circCategory')">
+  <div class="jumbotron">
+  <p class="text-info"> Categories</p>
+  <div class="row">
+    <div class="col-md-2">
+		<input type="text" placeholder="Rank code" ng-model="rankCode"/>
+	</div>
+	<div class="col-md-2">
+		<input type="text" placeholder="Effective Data" ng-model="catEffdt"/>
+	</div>
+	<div class="col-md-2">
+		<input type="text" placeholder="Circular group" ng-model="vetGroup"/>
+	</div>
+	<div class="col-md-2">
+		<input type="text" placeholder="Circular Category" ng-model="circCategory"/>
+	</div>
+	<div class="col-md-2">
+		<button class="btn-info" ng-click="addCategory('circCategory')">Add </button>
+		
+	</div>
+	</div>
+	
+	<table class="table table-hover" >
+	<thead>
+		<th>Select:</th>
+		<th>Rank Code</th>
+		<th>Effective Date</th>		
+		<th>Veteran group</th>	
+		<th>Circular category</th>		
+	</thead>
+	<tbody ng-repeat = "i in refObjArray">
+		<tr>
+		<td><input type="checkbox" ng-model="i.objSelected" ng-change="selectRefObj($index)"/></td> 
+		<td><input type="text" ng-class="active" ng-model="i.rankCode" ng-change = "changeRefObj($index,'rankCode')" ng-disabled="!if(1==1)" /></td>
+		<td><input type="text" ng-model="i.catEffdt" ng-change = "changeRefObj($index,'effdt')" ng-disabled="!isObjEditable($index)" /></td>
+		<td><input type="text" ng-model="i.vetGroup" ng-change = "changeRefObj($index,'vetGroup')" ng-disabled="!isObjEditable($index)" /></td>
+		<td><input type="text" ng-model="i.circCategory" ng-change = "changeRefObj($index,'circCategory')" ng-disabled="!isObjEditable($index)" /></td>
+		<td>
+			<button class="btn btn-default" ng-click="editObj($index)">
+				<span class="glyphicon glyphicon-pencil"></button></td>		
+				
+		</tr>
+	</tbody>
+	</table>
+  <button class="btn btn-default" ng-show="objSelectedCount>0" ng-click="deleteRefObj('circCategory')">Delete:<span class="glyphicon glyphicon-delete"></span></button>
+  <button class="btn btn-default" ng-click="updateRefObj('circCategory')">
+				Save<span class="glyphicon glyphicon-save"></button>
+	
+  </div>
+  
+				
+</div>
+
+<div class="container" ng-show="(page=='circularUpload')">
+  <div class="jumbotron">
+  <form class="form-group" id="formUploadCircular" name="uploadForm" 
+  action='/api/upload'  
+			enctype='multipart/form-data'  
+			accept="csv"   
+			method="post"  >
+	  <p class="text-info">Upload Circular</p>
+	  <div class="row">
+		<div class="col-md-2">
+		<label for="ppo_type">PPO Type:</label>
+			<select name="ppo" id="ppoType" ng-model="ppoType" placeholder="PPO Type" class="form-control">
+				<option value="normal">Normal</option>
+				<option value="enhanced">Enhanced</option>
+			</select>
+			<div ng-show="uploadForm.ppo.$touched">
+			<div ng-show="uploadForm.ppo.$error.required">PPO Type is required.</div>
+			</div>
+		</div>
+		<div class="col-md-2">
+			<label for="pen_rate_type">Rate Type:</label>
+			<select  id="penRateType" ng-model="penRateType" placeholder="Rate Type" class="form-control">
+				<option value="ORD_FAM">Ordinary Family</option>			
+			</select>
+		</div>
+		<div class="col-md-2">
+			<input type="text" class="form-control" id="circEffdt" placeholder="Effective Date" ng-model="circEffdt"/>
+		</div>
+		<div class="col-md-2">
+			<input type="text" class="form-control" id="circNum" placeholder="Circular Number" ng-model="circNum"/>
+		</div>
+		<div class="col-md-2">
+			<input type="text" class="form-control" id="circRemarks" placeholder="Remarks" ng-model="circRemarks"/>
+		</div>
+		
+		</div>
+		<div class="row">
+		<br/>
+		</div>
+		<div class="row">
+		<div class="col-md-3">
+			<label>Filename</label>
+		    <input name='x' type="file" id='txtFileUpload' />		    	
+		</div>
+		<div class="col-md-3">
+			<button type="submit" class="form-control btn-info" ng-disabled="(uploadForm.ppo.$error.required)" >Upload </button>
+			
+		</div>
+		<div class="col-md-3 align-right">
+			
+			<image src='/images/ajax-loader.gif' id="busyGIF"/>
+		</div>
+		<div class="col-md-3" >	
+			<label></label>
+			<button class="btn btn-info form-control" ng-click="getCircularTable()">
+				<span>Get</span>
+			</button>			
+		</div>
+		</div>
+	</form>
+
+	</DIV>
+  </div> <!-- end of upload container-->
+  	<!--Start DIV for Circular Table  here -->
+	<div class="container">
+	<div class="jumbotron">
+		<table  class="table table-bordered">
+			 <thead>
+			
+			 <th ng-repeat="no in penYearList[0]">{{$index}}</th>            
+			 </thead>
+			 <tbody>
+				<tr ng-repeat="track in penYearList ">
+				{{track[$index]}}
+					<td ng-repeat="step in track">{{step}}</td>
+				</tr>
+			 </tbody>
+		</table>
+	</div>
+	</div>
+	<!--END DIV for Circular Table  here -->
+	<div class="container" ng-show="(page=='circViewer')">
+	  <div class="jumbotron">
+		
+		<div class="row">
+			<div class="col-md-3">
+				<label>PPO Type</label>
+				<input class="form-control" ng-model="viewer.ppoType"/>			
+			</div>
+			
+			<div class="col-md-3">			
+				<label>Effective Date:</label>
+			<input class="form-control" ng-model="viewer.effdt"/>			
+			</div>
+			
+			<div class="col-md-3" >	
+				<label></label>
+			<button class="btn btn-info form-control" ng-click="getCircularTable()">
+				<span>Get</span>
+			</button>			
+			</div>
+		</div> <!-- END Row-->
+		
+					
+	  </div>
+	</div> <!-- end of circular viewer container-->
+  <script type="text/javascript" src="/scripts/circularScript.js">
+   
+  </script>
+</body>
+</html>

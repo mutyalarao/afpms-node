@@ -1,0 +1,16 @@
+<html>
+<head>
+<meta charset="utf-8">
+<script src="jquery-2.1.3.min.js"></script>
+
+<body>
+    <div id="nav-bar">
+        <a href = "/index.html">Home</a>        
+    </div>
+    <input type="text" id="vetId"/>
+    <input type="button" onclick="getVet();"/>    
+        
+</body>
+
+</html>
+    
