@@ -35,37 +35,27 @@ angular.module('addVet',[]).controller('addVetController',function($scope,$http)
 		    );		    
 	}*/
 	i.addVeteran=function(){
-		var vetObj = {				
-				serviceNum:""
-					,afaNum:""
-					,effdt:""
-					,vetName:""
-					,vetCity:""
-					,vetRank:""
-					,vetInitial:""
-					,vetStatus:""
-					,vetAdd1:""
-					,vetAdd2:""
-					,vetAdd3:""
-					,vetCity:""
-					,vetBranCode:""
-					,vetRetireDt:""
-					,vetSpouse:""
-					,vetEmail:""
-					,vetEnrollDt:""
-					,vetPpoType:""
-					,vetGroupCode:""
+		var vetData={};
+        var vetObj = {								
 		};
-		vetObj.serviceNum=i.vet.serviceNum
-		vetObj.afaNum	 =i.vet.afaNum	 
-		vetObj.effdt	 =i.vet.effdt	 
-		vetObj.vetName	 =i.vet.name	 
-		vetObj.vetAdd1=i.vet.add1
-		vetObj.vetAdd2=i.vet.add2
-		vetObj.vetAdd3=i.vet.add3
-		vetObj.vetCity	 =i.vet.city
-		vetObj.vetRank=i.vet.rank
-		vetObj.vetGroupCode==i.vet.groupCode
+		vetData.sNum=i.add.sNum
+		vetData.mNum	 =i.add.mNum	 
+		vetData.dobr =i.add.dobr	 
+        vetData.dode =i.add.dode	 
+        vetData.dojn =i.add.dojn
+        vetData.dods =i.add.dods
+        vetData.enrollDt =i.add.enrollDate	 
+		vetData.fName =i.add.fName	 
+        vetData.lName =i.add.fName	
+        vetData.gender =i.add.gender	 
+		vetData.addr1=i.add.addr1
+		vetData.addr2=i.add.addr2
+		vetData.addr3=i.add.addr3
+		vetData.city	 =i.add.city
+        vetData.state	 =i.add.state
+        vetData.pinCode=i.add.pinCode
+		vetData.trade=i.add.trade
+        vetObj.data=vetData;        		
 		console.log(vetObj);
 		$http.post('/api/AddVet',vetObj)
 		.success(function(err,data){

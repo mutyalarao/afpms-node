@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 24, 2015 at 07:35 AM
+-- Generation Time: Jul 06, 2015 at 08:50 PM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -192,6 +192,7 @@ CREATE TABLE IF NOT EXISTS `veteran_tbl` (
   `rank_code` char(10) NOT NULL,
   `first_name` varchar(100) NOT NULL,
   `last_name` varchar(100) NOT NULL,
+  `gender` char(1) NOT NULL,
   `address1` varchar(100) NOT NULL,
   `address2` varchar(100) NOT NULL,
   `address3` varchar(100) NOT NULL,
@@ -202,13 +203,20 @@ CREATE TABLE IF NOT EXISTS `veteran_tbl` (
   `join_dt` date NOT NULL,
   `birth_dt` date NOT NULL,
   `discharge_dt` date NOT NULL,
-  `death_dt` int(11) NOT NULL,
   `branch_cd` char(10) NOT NULL,
   `force_type` char(3) NOT NULL,
   `ENROLL_DT` date NOT NULL,
   `last_upd_dttm` datetime NOT NULL,
   `last_upd_user` char(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `veteran_tbl`
+--
+
+INSERT INTO `veteran_tbl` (`service_num`, `mem_num`, `rank_code`, `first_name`, `last_name`, `gender`, `address1`, `address2`, `address3`, `city`, `state`, `pin_code`, `trade`, `join_dt`, `birth_dt`, `discharge_dt`, `branch_cd`, `force_type`, `ENROLL_DT`, `last_upd_dttm`, `last_upd_user`) VALUES
+(0, 0, '', 'sdfs', 'sdfs', 'M', '', '', '', '', '', 0, '', '0000-00-00', '0000-00-00', '0000-00-00', '', '', '0000-00-00', '0000-00-00 00:00:00', ''),
+(11231, 12313, '', 'ffh', 'ffh', 'M', 'asd', 'aa', 'aa', '', '', 0, '', '0000-00-00', '0000-00-00', '0000-00-00', '', '', '0000-00-00', '0000-00-00 00:00:00', '');
 
 -- --------------------------------------------------------
 

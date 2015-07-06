@@ -10,8 +10,8 @@
   
 <script type="text/javascript">
 $(document).ready(function(){
-
 	
+  
 	//Callback handler for form submit event
 	$("#formUploadVet").submit(function(e)
 	{
@@ -37,7 +37,9 @@ $(document).ready(function(){
 	    });
 	    e.preventDefault(); //Prevent Default action. 
 	  //  e.unbind();
-	}); });
+	}); 
+
+});
 </script>
 </head>
 <body>
@@ -64,7 +66,7 @@ $(document).ready(function(){
 
 <div class="container" ng-show="(page=='addVet')">
 	<div class="jumbotron">
-		<form name="form"  class="form css-form">
+		<form name="form"  class="form css-form" id="formAddVet">
 			<div class="panel panel-primary">
 			<div class="panel-heading">IDs:</div>
 			<div class="panel-body"	>
@@ -126,11 +128,11 @@ $(document).ready(function(){
 				<div class="col-md-3"><label for="add_vet_rankCode">Rank:</label><select id="add_vet_rankCode" class="form-control" type="text" ng-model="add.rankCode">
 				</select></div>
 				<div class="col-md-3"><label for="add_vet_tradeCd">Trade/Branch:</label><input id="add_vet_tradeCd" class="form-control" type="text" ng-model="add.tradeCd"/></div>											
-				<div class="col-md-3"><label for="add_vet_dojn">Date of Joining:</label><input id="add_vet_dojn" class="form-control" type="text" ng-model="add.dob"/></div>				
+				<div class="col-md-3"><label for="add_vet_dojn">Date of Joining:</label><input id="add_vet_dojn" class="form-control" type="text" ng-model="add.dojn"/></div>				
 				<div class="col-md-3"><label for="add_vet_dods">Date of Discharge:</label><input id="add_vet_dods" class="form-control" type="text" ng-model="add.dods"/></div>				
 			</div></div></div>
 			<div class="row">
-				<div class="col-md-4"><button type="submit" class="btn btn-info"> Add </button></div>
+				<div class="col-md-4"><button  class="btn btn-info" ng-click='addVeteran()'> Add </button></div>
 			</div>
 		</form>
 	</div>
