@@ -4,16 +4,22 @@ angular.module('addVet',[]).controller('addVetController',function($scope,$http)
 	//var vetId = vetCtrl.search.vetId;
 	var i=$scope;
 	var page='';
+    i.lookupRefObj = {};
+    i.decorArr=[];
 	i.initForm=function(){
 		i.addMode='none'
 		i.page='';
-
+        
+        
 	}
 	i.showPage=function(page){
 		i.page=page;
 		if(page=='addVet')
 		{
 		  getLookup("rank","add_vet_rankCode");
+            getLookupArr('decor',function(data){i.lookupRefObj['decor']=data; console.log(i.lookupRefObj);});
+            getLookupArr('rank',function(data){i.lookupRefObj['rank']=data; console.log(i.lookupRefObj);});
+           // console.log(i.decorRefArr);
 		}
 	}
 
@@ -34,6 +40,9 @@ angular.module('addVet',[]).controller('addVetController',function($scope,$http)
 		     }          
 		    );		    
 	}*/
+    i.addDecorModal=function(){
+     i.decorArr.push({'sNum':$('#add_vet_sNum').val(),'decorCode':""});   
+    }
 	i.addVeteran=function(){
 		var vetData={};
         var vetObj = {								
@@ -55,9 +64,13 @@ angular.module('addVet',[]).controller('addVetController',function($scope,$http)
         vetData.state	 =i.add.state
         vetData.pinCode=i.add.pinCode
 		vetData.trade=i.add.trade
-        vetObj.data=vetData;        		
+       // vetData.decorData=i.decorArr;
+        vetObj.data=vetData;
+        var postData={};
+        postData.vetData=vetData;
+        postData.vetDecorData=i.decorArr;
 		console.log(vetObj);
-		$http.post('/api/AddVet',vetObj)
+		$http.post('/api/AddVet',postData)
 		.success(function(err,data){
 			if(err==null) alert('Success');
 			else
@@ -70,20 +83,44 @@ angular.module('addVet',[]).controller('addVetController',function($scope,$http)
 	var getLookup=function(source,target){
 
 	//issue a HTTP get with the source
-	$http.get('/api/getLookup',{params:{'source':'rank'}})
+	$http.get('/api/getLookup',{params:{'source':source}})
 	.success(function(res){
-		console.log(res.data);
+//		console.log(res.data);
 		var data = res.data;
 		//type assumed as SELECT
 		var targetJ="#"+target;
 		$(targetJ).empty();
 		for(var j=0;j<data.length;j++){
-		console.log(data[j].code);
+//		console.log(data[j].code);
 		$("<option></option>").val(data[j].code).text(data[j].descr).appendTo(targetJ);
 		}
 		$(targetJ).val('');
 	})
 	.error(function(err,data){console.log(err);});
+	
+	}
+
+
+var test=function(){
+    console.log('in test');
+    console.log(i.decorRefArr);
+    console.log('out test');
+}
+
+var getLookupArr=function(source,callback){
+
+	//issue a HTTP get with the source
+	$http.get('/api/getLookup',{params:{'source':source}})
+	.success(function(res){
+		console.log(res.data);
+		//i.lookupRefObj[source] = res.data.slice();
+        //console.log(res.data);
+		callback(res.data);
+        //test();
+	})
+	.error(function(err,data){
+        
+        console.log(err);});
 	
 	}
 

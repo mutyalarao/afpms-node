@@ -57,7 +57,7 @@ $(document).ready(function(){
         <li class="active"><a href="#">Home</a></li>
         <li><a href="#" ng-click="showPage('addVet')"  ng-model='rankPageLink'>Add a Veteran</a></li>
         <li><a href="#" ng-click="showPage('uploadVet')">Upload veteran File</a></li>
-        <li><a href="#" ng-click="showPage('viewVet')">Search Veteran</a></li>
+        <li><a href="#" ng-click="showPage('searchVet')">Search Veteran</a></li>
       </ul>
     </div>
   </div>
@@ -74,12 +74,12 @@ $(document).ready(function(){
 				<div class="col-md-6">
 					<label for="add_vet_sNum">Service Num:</label>
 					<input type="number" id="add_vet_sNum" class="form-control" type="text" ng-model="add.sNum" name="sNum"/>
-										<span style="color:red" ng-show="form.$submitted ||(form.sNum.$dirty && (form.sNum.$invalid || form.sNum.$error.required))">Please enter Membership Number</span>
+										<span style="color:red" ng-show="false && form.$submitted ||(form.sNum.$dirty && (form.sNum.$invalid || form.sNum.$error.required))">Please enter Membership Number</span>
 				</div>
 				<div class="col-md-6">
 					<label for="add_vet_mNum">Membership Num:</label>
 					<input type="number"  id="add_vet_mNum" class="form-control" type="text" ng-model="add.mNum" name="mNum"/>
-					<span style="color:red" ng-show="form.$submitted ||(form.mNum.$dirty && (form.mNum.$invalid || form.mNum.$error.required))">Please enter Membership Number</span>
+					<span style="color:red" ng-show="false&&(form.mNum.$dirty && (form.mNum.$invalid || form.mNum.$error.required))">Please enter Membership Number</span>
 				</div>
 			</div></div></div>
 
@@ -102,7 +102,7 @@ $(document).ready(function(){
 				<option value="M">Male</option>
 				<option value="F">Female</option>
 				</select>
-				<span style="color:red" ng-show="form.$submitted|| (form.gender.$invalid || form.gender.$error.required)">Please Choose a Gender</span>
+				<span style="color:red" ng-show="false&&form.$submitted|| (form.gender.$invalid || form.gender.$error.required)">Please Choose a Gender</span>
 				</div>
 				<div class="col-md-3"><label for="add_vet_dobr">Date of Birth:</label><input id="add_vet_dobr" class="form-control" type="text" ng-model="add.dobr"/></div>
 				<div class="col-md-3"><label for="add_vet_dodc">Date of Decease:</label><input id="add_vet_dode" class="form-control" type="text" ng-model="add.dode"/></div>
@@ -116,7 +116,9 @@ $(document).ready(function(){
 			
 				<div class="col-md-4"><label for="add_vet_addr1">Address1:</label><input id="add_vet_addr1" class="form-control" type="text" ng-model="add.addr1"/></div>
 				<div class="col-md-4"><label for="add_vet_addr2">Address2:</label><input id="add_vet_addr2" class="form-control" type="text" ng-model="add.addr2"/></div>
-				<div class="col-md-4"><label for="add_vet_addr3">Address3:</label><input id="add_vet_addr1" class="form-control" type="text" ng-model="add.addr3"/></div>				
+				<div class="col-md-4"><label for="add_vet_addr3">Address3:</label><input id="add_vet_addr3" class="form-control" type="text" ng-model="add.addr3"/></div>				
+                <div class="col-md-4"><label for="add_vet_city">city:</label><input id="add_vet_city" class="form-control" type="text" ng-model="add.city"/></div>				
+                <div class="col-md-4"><label for="add_vet_state">State:</label><input id="add_vet_state" class="form-control" type="text" ng-model="add.state"/></div>				
 			</div></div></div>
 			
 		
@@ -130,7 +132,13 @@ $(document).ready(function(){
 				<div class="col-md-3"><label for="add_vet_tradeCd">Trade/Branch:</label><input id="add_vet_tradeCd" class="form-control" type="text" ng-model="add.tradeCd"/></div>											
 				<div class="col-md-3"><label for="add_vet_dojn">Date of Joining:</label><input id="add_vet_dojn" class="form-control" type="text" ng-model="add.dojn"/></div>				
 				<div class="col-md-3"><label for="add_vet_dods">Date of Discharge:</label><input id="add_vet_dods" class="form-control" type="text" ng-model="add.dods"/></div>				
-			</div></div></div>
+			</div>
+                <div class="row">				
+                    <div class="col-md-3"><button id="add_btn_decor" class="form-control btn btn-default" data-target="#vetDecorModal" data-toggle="modal">Decorations </button>                   
+                        
+				</div>
+                </div>
+                </div></div>
 			<div class="row">
 				<div class="col-md-4"><button  class="btn btn-info" ng-click='addVeteran()'> Add </button></div>
 			</div>
@@ -156,7 +164,65 @@ $(document).ready(function(){
 	</div>
 </div>
 
-    
+<div class="container" ng-show="(page=='searchVet')">
+	<div class="jumbotron">
+		<section>
+			<div id ='divSearchVet'>
+				<form id ='formSearchVet'  
+				action='/api/getVet'  				
+				method="post"> 
+				<div class="panel panel-primary">
+                 <div class="panel-heading">Criteria</div>
+			     <div class="panel-body">
+			     <div class="row">
+				<div class="col-md-6">
+					<label for="srch_vet_sNum">Service Num:</label>
+					<input type="number" id="add_vet_sNum" class="form-control" type="text" ng-model="srch.sNum" name="srch.sNum"/>									
+				</div>
+				<div class="col-md-6">
+					<label for="srch_vet_mNum">Membership Num:</label>
+					<input type="number"  id="add_vet_mNum" class="form-control" type="text" ng-model="srch.mNum" name="srch.mNum"/>					
+				</div>
+			</div></div></div>
+				
+				</form>
+			</div>
+		</section>
+	</div>
+</div>
+
+   <!-- Modal starts -->
+<div class="modal fade" id="vetDecorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               <h4 class="modal-title" id="vetDecorModal">New message</h4>
+            </div>
+          <div class="modal-body">
+            <form>
+                <div class="row">
+                <div class="col-md-3">
+                <button class="btn btn-primary form-control" ng-click="addDecorModal()"> Add</button>
+                </div></div>
+              <table >
+                  <tbody>
+                <tr ng-repeat="row in decorArr">
+                    <td ><select ng-model="row.decorCode" ng-options="item.code as item.descr for item in lookupRefObj['decor']"></select></td>
+                  </tr>
+                </tbody>
+                </table>      
+              
+              
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Send message</button>
+          </div>
+        </div>
+      </div>
+    </div>     
         
  <script src="/scripts/addVet_ng.js"></script>
  </div>
