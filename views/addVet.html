@@ -133,11 +133,10 @@ $(document).ready(function(){
 				<div class="col-md-3"><label for="add_vet_dojn">Date of Joining:</label><input id="add_vet_dojn" class="form-control" type="text" ng-model="add.dojn"/></div>				
 				<div class="col-md-3"><label for="add_vet_dods">Date of Discharge:</label><input id="add_vet_dods" class="form-control" type="text" ng-model="add.dods"/></div>				
 			</div>
+			<div class="row"><br>				</div>
                 <div class="row">				
-                    <div class="col-md-3"><button id="add_btn_decor" class="form-control btn btn-default" data-target="#vetDecorModal" data-toggle="modal">Decorations </button>                   
-                        
-				</div>
-                </div>
+                    <div class="col-md-4"> <button id="add_btn_decor" class="form-control btn btn-info" data-target="#vetDecorModal" data-toggle="modal"> Decorations </button></div>
+					<div class="col-md-4"><button id="add_btn_phone" class="form-control btn btn-info" data-target="#vetPhoneModal" data-toggle="modal">Phones </button></div>					
                 </div></div>
 			<div class="row">
 				<div class="col-md-4"><button  class="btn btn-info" ng-click='addVeteran()'> Add </button></div>
@@ -224,6 +223,41 @@ $(document).ready(function(){
       </div>
     </div>     
         
+<!-- Phone Modal starts -->
+<div class="modal fade" id="vetPhoneModal" tabindex="-1" role="dialog" aria-labelledby="vetPhoneModalLabel">
+    <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               
+            </div>
+          <div class="modal-body">
+            <form>
+                <div class="row">
+                <div class="col-md-3">
+                <button class="btn btn-primary form-control" ng-click="addPhoneModal()"> Add</button>
+                </div></div>
+              <table>
+                  <tbody>
+                <tr ng-repeat="row in phoneArr">
+                    <td ><label for="vet_phone_type">Phone Type:</label>
+					<select id="vet_phone_type" ng-model="row.phoneType" ng-options="item.code as item.descr for item in lookupRefObj['phone']"></select></td>
+					<td><label for="vet_phone_num">Phone Number:</label>
+					<input type="text" id="vet_phone_num" ng-model='row.phoneNum' placeholder='Phone number'/> </td>
+                </tr>
+                </tbody>
+              </table>      
+              
+              
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>            
+          </div>
+        </div>
+      </div>
+    </div>    
+	
  <script src="/scripts/addVet_ng.js"></script>
  </div>
  

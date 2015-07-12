@@ -6,6 +6,7 @@ angular.module('addVet',[]).controller('addVetController',function($scope,$http)
 	var page='';
     i.lookupRefObj = {};
     i.decorArr=[];
+	i.phoneArr=[];
 	i.initForm=function(){
 		i.addMode='none'
 		i.page='';
@@ -18,7 +19,8 @@ angular.module('addVet',[]).controller('addVetController',function($scope,$http)
 		{
 		  getLookup("rank","add_vet_rankCode");
             getLookupArr('decor',function(data){i.lookupRefObj['decor']=data; console.log(i.lookupRefObj);});
-            getLookupArr('rank',function(data){i.lookupRefObj['rank']=data; console.log(i.lookupRefObj);});
+            //getLookupArr('rank',function(data){i.lookupRefObj['rank']=data; console.log(i.lookupRefObj);});
+			getLookupArr('phone',function(data){i.lookupRefObj['phone']=data; console.log(i.lookupRefObj);});
            // console.log(i.decorRefArr);
 		}
 	}
@@ -69,6 +71,7 @@ angular.module('addVet',[]).controller('addVetController',function($scope,$http)
         var postData={};
         postData.vetData=vetData;
         postData.vetDecorData=i.decorArr;
+		postData.vetPhoneData=i.phoneArr;
 		console.log(vetObj);
 		$http.post('/api/AddVet',postData)
 		.success(function(err,data){
@@ -99,7 +102,9 @@ angular.module('addVet',[]).controller('addVetController',function($scope,$http)
 	.error(function(err,data){console.log(err);});
 	
 	}
-
+ i.addPhoneModal=function(){
+	i.phoneArr.push({'sNum':$('#add_vet_sNum').val(),'phoneType':"",'phoneNum':""});   
+}
 
 var test=function(){
     console.log('in test');
