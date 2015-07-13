@@ -81,7 +81,14 @@ $(document).ready(function(){
 					<input type="number"  id="add_vet_mNum" class="form-control" type="text" ng-model="add.mNum" name="mNum"/>
 					<span style="color:red" ng-show="false&&(form.mNum.$dirty && (form.mNum.$invalid || form.mNum.$error.required))">Please enter Membership Number</span>
 				</div>
-			</div></div></div>
+			</div>
+			<div class="row">
+				<div class="col-md-8">
+					<label for="add_vet_mNum">Aadhaar Num:</label>
+					<input type="number"  id="add_vet_nid" class="form-control" type="text" ng-model="add.nid" name="nid"/>
+				</div>
+			</div>
+			</div></div>
 
 			
 			<div class="panel panel-info">
@@ -90,11 +97,7 @@ $(document).ready(function(){
 				<div class="col-md-3"><label for="add_vet_title">Title</label><select id="add_vet_title" class="form-control" type="text" ng-model="add.title">
 				<option>Mr</option>
 				<option>Mrs</option>
-				<option>Miss</option>
-				<option>Sr.</option>
-				<option>Jr.</option>
-				<option>Lt.</option>
-				<option>Brg.</option>
+				<option>Miss</option>				
 				</select></div>
 				<div class="col-md-3"><label for="add_vet_fName">First Name</label><input id="add_vet_fName" class="form-control" type="text" ng-model="add.fName"/></div>
 				<div class="col-md-3"><label for="add_vet_lName">Last Name</label><input id="add_vet_lName" class="form-control" type="text" ng-model="add.lName"/></div>
@@ -144,19 +147,29 @@ $(document).ready(function(){
 		</form>
 	</div>
 </div>
-
+</div>
 <div class="container" ng-show="(page=='uploadVet')">
 	<div class="jumbotron">
+	<div class="well">
+		<a href="#" ng-click="downloadTemplate('vetDetails')" >Download the csv template</a>
+	</div>
+	<div class="well">
+		<h3>Please ensure there are no commas in the any of the fields! Fix underway...</h3>
+	</div>
 		<section>
 			<div id ='frmUploadVet'>
+			
 				<form id ='formUploadVet'  
 				action='/api/upload'  
 				enctype='multipart/form-data'  
 				accept="csv"   
 				method="post"> 
-					<label>Filename</label>
-					<input name='x' type="file" id='txtFileUpload' />
-					<input type="submit" id='txtFileUpload' value='Upload' />
+					<div class="row"><div class="col-md-4">
+					<label>Filename</label>					
+					<input name='x' type="file" id='txtFileUpload' /></div>
+					<div class="col-md-4">
+					<input type="submit" id='txtFileUpload' value='Upload' /></div>
+					</div>
 				</form>
 			</div>
 		</section>
@@ -196,7 +209,7 @@ $(document).ready(function(){
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-               <h4 class="modal-title" id="vetDecorModal">New message</h4>
+               
             </div>
           <div class="modal-body">
             <form>
@@ -217,7 +230,7 @@ $(document).ready(function(){
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Send message</button>
+            
           </div>
         </div>
       </div>
@@ -259,7 +272,7 @@ $(document).ready(function(){
     </div>    
 	
  <script src="/scripts/addVet_ng.js"></script>
- </div>
+
  
 </body>
 

@@ -109,7 +109,13 @@ app.post('/api/GetVet',function(req,res,next){
 		}
 	});
 });
-
+app.get('/api/getFile',function(req,res){
+	if(req.query.item=='vetDetails')
+	{
+		var filePath=__dirname + "/docs/vet_details_template.csv";
+		res.download(filePath);
+	}
+});
 app.post('/api/upload',function(req,res){
 	  console.log(req.files);
 	  console.log(req.body.uploadItem);

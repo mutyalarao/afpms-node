@@ -15,7 +15,7 @@ angular.module('addVet',[]).controller('addVetController',function($scope,$http)
 	}
 	i.showPage=function(page){
 		i.page=page;
-		if(page=='addVet')
+		if(page=='addVet' || page=='searchVet')
 		{
 		  getLookup("rank","add_vet_rankCode");
             getLookupArr('decor',function(data){i.lookupRefObj['decor']=data; console.log(i.lookupRefObj);});
@@ -66,6 +66,7 @@ angular.module('addVet',[]).controller('addVetController',function($scope,$http)
         vetData.state	 =i.add.state
         vetData.pinCode=i.add.pinCode
 		vetData.trade=i.add.trade
+		vetData.rankCode = i.add.rankCode
        // vetData.decorData=i.decorArr;
         vetObj.data=vetData;
         var postData={};
@@ -128,6 +129,15 @@ var getLookupArr=function(source,callback){
         console.log(err);});
 	
 	}
+	
+i.downloadTemplate=function(item){
 
-});
+	$http.get('/api/getFile',{params:{'item':'vetDetails'}})
+	.success(function(res){
+		
+	})
+	.error(function(res){alert('OOps');});
+}
+
+}); //end of the MAIN function
 
