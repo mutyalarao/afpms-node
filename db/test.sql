@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 06, 2015 at 08:50 PM
+-- Generation Time: Jul 19, 2015 at 08:01 PM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -183,6 +183,26 @@ INSERT INTO `circular_tbl` (`circular_num`, `PPO_type`, `pen_rate_type`, `effdt`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `phone_types`
+--
+
+CREATE TABLE IF NOT EXISTS `phone_types` (
+  `phone_type` char(5) NOT NULL,
+  `descr` char(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `phone_types`
+--
+
+INSERT INTO `phone_types` (`phone_type`, `descr`) VALUES
+('BUS', 'Business'),
+('MOB', 'Mobile'),
+('RES', 'Residence');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `veteran_tbl`
 --
 
@@ -190,6 +210,7 @@ CREATE TABLE IF NOT EXISTS `veteran_tbl` (
   `service_num` int(11) NOT NULL,
   `mem_num` int(11) NOT NULL,
   `rank_code` char(10) NOT NULL,
+  `title` char(5) NOT NULL,
   `first_name` varchar(100) NOT NULL,
   `last_name` varchar(100) NOT NULL,
   `gender` char(1) NOT NULL,
@@ -202,10 +223,12 @@ CREATE TABLE IF NOT EXISTS `veteran_tbl` (
   `trade` varchar(20) NOT NULL,
   `join_dt` date NOT NULL,
   `birth_dt` date NOT NULL,
+  `death_dt` date NOT NULL,
   `discharge_dt` date NOT NULL,
   `branch_cd` char(10) NOT NULL,
   `force_type` char(3) NOT NULL,
   `ENROLL_DT` date NOT NULL,
+  `aadhaar` int(11) NOT NULL,
   `last_upd_dttm` datetime NOT NULL,
   `last_upd_user` char(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -214,9 +237,14 @@ CREATE TABLE IF NOT EXISTS `veteran_tbl` (
 -- Dumping data for table `veteran_tbl`
 --
 
-INSERT INTO `veteran_tbl` (`service_num`, `mem_num`, `rank_code`, `first_name`, `last_name`, `gender`, `address1`, `address2`, `address3`, `city`, `state`, `pin_code`, `trade`, `join_dt`, `birth_dt`, `discharge_dt`, `branch_cd`, `force_type`, `ENROLL_DT`, `last_upd_dttm`, `last_upd_user`) VALUES
-(0, 0, '', 'sdfs', 'sdfs', 'M', '', '', '', '', '', 0, '', '0000-00-00', '0000-00-00', '0000-00-00', '', '', '0000-00-00', '0000-00-00 00:00:00', ''),
-(11231, 12313, '', 'ffh', 'ffh', 'M', 'asd', 'aa', 'aa', '', '', 0, '', '0000-00-00', '0000-00-00', '0000-00-00', '', '', '0000-00-00', '0000-00-00 00:00:00', '');
+INSERT INTO `veteran_tbl` (`service_num`, `mem_num`, `rank_code`, `title`, `first_name`, `last_name`, `gender`, `address1`, `address2`, `address3`, `city`, `state`, `pin_code`, `trade`, `join_dt`, `birth_dt`, `death_dt`, `discharge_dt`, `branch_cd`, `force_type`, `ENROLL_DT`, `aadhaar`, `last_upd_dttm`, `last_upd_user`) VALUES
+(1212, 1212, 'wgcdr', '', 'Rao', 'Rao', 'M', 'Murugeshpalya', '', '', 'Bangalore', 'Karnataka', 0, '', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '', '', '0000-00-00', 0, '0000-00-00 00:00:00', ''),
+(1213, 1213, 'wgcdr', '', 'kumar', 'kumar', 'M', 'majestic', '', '', 'Bangalore', 'Karnataka', 0, '', '0000-00-00', '2000-12-12', '0000-00-00', '0000-00-00', '', '', '0000-00-00', 0, '0000-00-00 00:00:00', ''),
+(1214, 1214, '', '', 'Kumari', 'Kumari', 'M', 'sfsf', '', '', 'Chennai', '', 0, '', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '', '', '0000-00-00', 0, '0000-00-00 00:00:00', ''),
+(55999, 9898, 'AO', 'Mr', 'Ram', 'Shyam', 'M', 'tambaram', '', '', 'chennai', 'Tamilnadu', 600006, 'XX', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '', '', '0000-00-00', 0, '0000-00-00 00:00:00', ''),
+(66999, 9898, 'AO', 'Mr', 'Ram', 'Shyam', 'M', 'tambaram', '', '', 'chennai', 'Tamilnadu', 600006, 'XX', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '', '', '0000-00-00', 0, '0000-00-00 00:00:00', ''),
+(77999, 9898, 'AO', 'Mr', 'Ram', 'Shyam', 'M', 'tambaram', '', '', 'chennai', 'Tamilnadu', 600006, 'XX', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '', '', '0000-00-00', 0, '0000-00-00 00:00:00', ''),
+(88999, 9898, 'AO', 'Mr', 'Ram', 'Shyam', 'M', 'tambaram', '', '', 'chennai', 'Tamilnadu', 600006, 'XX', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '', '', '0000-00-00', 0, '0000-00-00 00:00:00', '');
 
 -- --------------------------------------------------------
 
@@ -249,6 +277,14 @@ CREATE TABLE IF NOT EXISTS `vet_decor_tbl` (
   `decor_code` char(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `vet_decor_tbl`
+--
+
+INSERT INTO `vet_decor_tbl` (`service_num`, `decor_code`) VALUES
+(1213, 'PSRI'),
+(1214, 'AVSM');
+
 -- --------------------------------------------------------
 
 --
@@ -276,6 +312,27 @@ CREATE TABLE IF NOT EXISTS `vet_per_info` (
   `PPO_type` char(6) NOT NULL,
   `Group_Code` char(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vet_phone_tbl`
+--
+
+CREATE TABLE IF NOT EXISTS `vet_phone_tbl` (
+  `service_num` int(11) NOT NULL,
+  `phone_type` char(5) NOT NULL,
+  `phone_num` char(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `vet_phone_tbl`
+--
+
+INSERT INTO `vet_phone_tbl` (`service_num`, `phone_type`, `phone_num`) VALUES
+(1213, 'BUS', '243'),
+(1213, 'MOB', '234'),
+(1214, 'BUS', '9980004568');
 
 -- --------------------------------------------------------
 
@@ -327,6 +384,12 @@ ALTER TABLE `circular_tbl`
  ADD PRIMARY KEY (`PPO_type`,`pen_rate_type`,`effdt`,`circ_category`,`service_yrs`);
 
 --
+-- Indexes for table `phone_types`
+--
+ALTER TABLE `phone_types`
+ ADD PRIMARY KEY (`phone_type`);
+
+--
 -- Indexes for table `veteran_tbl`
 --
 ALTER TABLE `veteran_tbl`
@@ -349,6 +412,12 @@ ALTER TABLE `vet_decor_tbl`
 --
 ALTER TABLE `vet_per_info`
  ADD PRIMARY KEY (`service_num`,`afa_num`,`EFFDT`), ADD UNIQUE KEY `service_num` (`service_num`);
+
+--
+-- Indexes for table `vet_phone_tbl`
+--
+ALTER TABLE `vet_phone_tbl`
+ ADD PRIMARY KEY (`service_num`,`phone_type`);
 
 --
 -- Indexes for table `vet_rank_ref`
