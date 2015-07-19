@@ -248,18 +248,7 @@ app.get('/api/getLookup',function(req,res){
 	});
 });
 
-app.post('/api/getVetInfo',function(req,res){
-	handler.getVetInfo(req,res,function(err,data){
-		//if(!err) //success
-		{
-			res.status(200).type('json');
-			res.end(JSON.stringify({"err":err,"data":data}));
-		}
-		
-	});
-});
-
-app.post('/api/searchVet',function(req,res){
+app.get('/api/searchVet',function(req,res){
 			
 	handler.searchVet(req,res,function(err,data){
 		if(err!=null){	

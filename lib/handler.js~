@@ -1,3 +1,4 @@
+
 var url = require("url")
 var path = require("path");
 var http = require("http");
@@ -5,6 +6,7 @@ var fs = require('fs');
 var mime = require('mime');
 var serveStatic = require('./static');
 var mysql = require('mysql');
+var utils = require('./utils');
 var cache={};
 var data;
 var tblColMap;
@@ -72,6 +74,7 @@ function TblMap(name,dbTable){
  this.name=name;
   this.dbTable=dbTable;
   this.map={}; //holds the props, dCol, type
+  this.whereArr=[];
   //this.arr=[];
 }
 
@@ -157,9 +160,10 @@ TblMap.prototype.getSelect=function(colArr){
       //console.log('in');  
       for(var i=0, len=objArr.length;i<len;i++)
         {
+//console.log("len:"+len+"-i"+i);           
             if(len-i==1) cSep=""
             else cSep=",";
-            selStr=this.map[objArr[i]].dCol+" as " + objArr[i]+cSep;
+            selStr+=this.map[objArr[i]].dCol+" as " + objArr[i]+cSep;
         }
     }
     else
@@ -169,11 +173,33 @@ TblMap.prototype.getSelect=function(colArr){
         {
             if(len-i==1) cSep=""
             else cSep=",";
-            selStr=this.map[objArr[i]].dCol+" as " + this.map[objArr[i]]+cSep;
+            selStr+=this.map[objArr[i]].dCol+" as " + this.map[objArr[i]]+cSep;
         }
     }
-    
-    return sql + selStr + " FROM " + this.dbTable;
+    console.log(this.whereObj.sNum);
+	var objArr=Object.getOwnPropertyNames(this.whereObj);    
+    //var objArr=utils.getPropList(this.whereObj);
+    if(objArr.length>0) //where has criteria    
+    {// construct the where string
+		var whereStr=" WHERE ";
+	    
+	    for(var i=0, len=objArr.length;i<len;i++)
+        { //objArr[i] -> i of map
+   			var operator=" = ";
+			var operand= this.whereObj[objArr[i]]; //where value
+		if(operand){
+	          if(i>0) cSep=" AND ";
+				if (this.map[objArr[i]].type=='DATE') operand="'"+this.whereObj[objArr[i]]+"'"; 
+				if (this.map[objArr[i]].type=='CHAR') 
+				{operator=" LIKE "; 
+				operand="'%"+this.whereObj[objArr[i]]+"%'" ;}   
+	   
+	          whereStr+=cSep + this.map[objArr[i]].dCol+operator + operand;
+       	}
+        }
+    	
+    }
+    return sql + selStr + " FROM " + this.dbTable+ whereStr ;
 }
 /**********END********************/
 
@@ -300,44 +326,9 @@ function send404(req,res)
             res.end('404: NOt found');
     }
 }
-function searchVet(req,res){
-    console.log("in search vet....");
-    if(req.method='GET'){
-        filePath='./views/searchVet.html';
-        serveStatic.serveFile(res,cache,filePath);
-    }
-}
-function getVet(vetId,callback){
-	
-	connection = connectSql();
-	if(vetId=="*")
-		{
-		sql = 'SELECT * from vet_per_info';
-		}
-	else
-	sql = 'SELECT * from vet_per_info where service_num=\''+vetId+'\'';
-	//sql = 'SELECT * from vet_per_info';
-	console.log('in getVet, and sql = ' + sql);
-    connection.query(sql, function(err, rows) {
-	
-	if (!err) {
-	  data = rows;
-	  console.log("got some rows!!" + data.length);
-	  if(data.length<1)
-		  {
-		  	data=null;
-		  }
-	  connection.end();
-	  callback(null,data);		 
-	  }
-	else{
-		console.log('Error while performing Query.')
-		connection.end();
-		callback(null,null);
-		};
-});
-  
-}
+
+
+
 function route(req,res)
 {
 	var url = req.url;
@@ -418,8 +409,9 @@ var addVet = function(req,res,callback)
 				vetAsync.exec(function(err,data){callback(err,data);});				
 				
 			}
-			 
-			}
+			 else callback(null,result);
+			} else callback(null,result);
+		
 		}
 		else{
 			if(connection.open)
@@ -1016,7 +1008,13 @@ var getLookupF=function(req,callback)
 		});
 }
 
-
+function searchVetF(req,res,callback){
+    console.log("in search vet....");
+	 console.log("Data",req.body.whereData);
+	 vetMap.whereObj=req.body.whereData;	 
+	 console.log(vetMap.getSelect("*"));
+       callback(null,"");
+}
 
 //exports.addDecor=addDecorF;
 //exports.getDecor=getDecorF;
@@ -1026,5 +1024,6 @@ exports.getCircData=getCircDataF;
 exports.updateRefData=updateRefDataF;
 exports.deleteRefData=deleteRefDataF;
 exports.deleteCircData=deleteCircDataF;
+exports.searchVet=searchVetF;
 //exports.addCircularCategory=addCircularCategoryF;
 exports.getLookup=getLookupF;

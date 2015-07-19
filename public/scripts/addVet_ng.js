@@ -84,7 +84,18 @@ angular.module('addVet',[]).controller('addVetController',function($scope,$http)
 			alert('Fatal error')
 		})
 	}
-	var getLookup=function(source,target){
+	
+ i.addPhoneModal=function(){
+	i.phoneArr.push({'sNum':$('#add_vet_sNum').val(),'phoneType':"",'phoneNum':""});   
+}
+
+var test=function(){
+    console.log('in test');
+    console.log(i.decorRefArr);
+    console.log('out test');
+}
+
+var getLookup=function(source,target){
 
 	//issue a HTTP get with the source
 	$http.get('/api/getLookup',{params:{'source':source}})
@@ -103,15 +114,6 @@ angular.module('addVet',[]).controller('addVetController',function($scope,$http)
 	.error(function(err,data){console.log(err);});
 	
 	}
- i.addPhoneModal=function(){
-	i.phoneArr.push({'sNum':$('#add_vet_sNum').val(),'phoneType':"",'phoneNum':""});   
-}
-
-var test=function(){
-    console.log('in test');
-    console.log(i.decorRefArr);
-    console.log('out test');
-}
 
 var getLookupArr=function(source,callback){
 

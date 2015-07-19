@@ -5,36 +5,211 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
   <script src= "https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+<style>
 
+</style>
 
-
+</head>
 <body>
 <% include header.html %>
 
-<div id='AddVet' ng-app='searchVet' ng-controller='VetController'>
+<div id='AddVet' ng-app='searchVet' ng-controller='VetController' ng-init="init()"">
+<div class="container">
+	<div class="jumbotron">
+	<form class="form">
+	<div class="row">
+	<div class="col-md-4">	
+		<label for="criteria_sNum" >Service Number</label>
+		<input type="text" class="form-control" id="criteria_sNum" ng-model='criteria.sNum'/>
+		</div>
+	<div class="col-md-4">
+		<label for="criteria_mNum" >Membership Number</label>		
+		<input type="text" class="form-control" id="criteria_mNum" ng-model='criteria.mNum'/>
+		</div>		
+	<div class="col-md-4">		
+		<label for="criteria_fName" >Membership Number</label>		
+		<input type="text" class="form-control" id="criteria_fName" ng-model='criteria.fName'/>
+		</div>
+		</div>
+		<div class="row">	
+		<br>			
+		<button class="btn btn-info" value="Search" ng-click="goSearch()"> <span>Search</span></button></div>
+		
+		</form>
+		</div>			
+		</div>
+		<div class="container">
+		<div class="jumbotron">
 
-    	<div id='testPost'>    
-		<label for="searchVetId">Veteran Id:</label>
-		<input type="text" id="searchVetId" ng-model='search.vetId'/>
-		<input type="button" value="Search" ng-click="fireSearch()"/>
-		</div>
-		<br>
-		<div>
-			<table id="vetInfoTable" border="1" >
-			<tr> 
-			<td>Service Num</td> <td>name</td>
-			 <td>City</td> </tr>
-				<tr ng-repeat="i in vetData">
-				<td>{{ i.service_num }}</td>
-				<td>{{ i.afa_num }}</td>
-				<td>{{ i.name }}</td>
-				<td>{{ i.effdt }}</td>
-				<td>{{ i.address }}</td>
-				<td>{{ i.city }}</td>
+		<div class="row border">
+				<div class="col-md-1" style="background-color: lavender; border-right: solid;">
+					
+					<table id="result_table" class="table table-striped">
+					<tbody ng-repeat="i in rsltArr">
+					<tr >
+					<td ><a href="#formSearchVet" ng-model="i.sNum" ng-click="projectVet($index)" >{{i.sNum}}</a></td>					
+					</tr>
+					</tbody>					
+					</table> 
+
+									
+				</div>
+				<div class="col-md-11">
+				<form name="form"  class="form css-form" id="formSearchVet">
+			<div class="panel panel-primary">
+			<div class="panel-heading">IDs:</div>
+			<div class="panel-body"	>
+			<div class="row">
+				<div class="col-md-6">
+					<label for="add_vet_sNum">Service Num:</label>
+					<input type="number" id="add_vet_sNum" class="form-control" type="text" ng-model="rslt.sNum" name="sNum"/>
+										<span style="color:red" ng-show="false && form.$submitted ||(form.sNum.$dirty && (form.sNum.$invalid || form.sNum.$error.required))">Please enter Membership Number</span>
+				</div>
+				<div class="col-md-6">
+					<label for="add_vet_mNum">Membership Num:</label>
+					<input type="number"  id="add_vet_mNum" class="form-control" type="text" ng-model="rslt.mNum" name="mNum"/>
+					<span style="color:red" ng-show="false&&(form.mNum.$dirty && (form.mNum.$invalid || form.mNum.$error.required))">Please enter Membership Number</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-8">
+					<label for="add_vet_mNum">Aadhaar Num:</label>
+					<input type="number"  id="add_vet_nid" class="form-control" type="text" ng-model="rslt.nid" name="nid"/>
+				</div>
+			</div>
+			</div></div>
+
+			
+			<div class="panel panel-info">
+			<div class="panel-heading">Personal:</div>
+			<div class="panel-body"	>
+				<div class="col-md-3"><label for="add_vet_title">Title</label><select id="add_vet_title" class="form-control" type="text" ng-model="rslt.title">
+				<option>Mr</option>
+				<option>Mrs</option>
+				<option>Miss</option>				
+				</select></div>
+				<div class="col-md-3"><label for="add_vet_fName">First Name</label><input id="add_vet_fName" class="form-control" type="text" ng-model="rslt.fName"/></div>
+				<div class="col-md-3"><label for="add_vet_lName">Last Name</label><input id="add_vet_lName" class="form-control" type="text" ng-model="rslt.lName"/></div>
+				<div class="col-md-3"><label for="add_vet_gender">Gender</label><select name="gender" id="add_vet_Gender" class="form-control" type="text" ng-model="rslt.gender" >
+				<option value="M">Male</option>
+				<option value="F">Female</option>
+				</select>
+				<span style="color:red" ng-show="false&&form.$submitted|| (form.gender.$invalid || form.gender.$error.required)">Please Choose a Gender</span>
+				</div>
+				<div class="col-md-3"><label for="add_vet_dobr">Date of Birth:</label><input id="add_vet_dobr" class="form-control" type="text" ng-model="rslt.dobr"/></div>
+				<div class="col-md-3"><label for="add_vet_dodc">Date of Decease:</label><input id="add_vet_dode" class="form-control" type="text" ng-model="rslt.dode"/></div>
+			</div>
+			</div>					
+			
+			<div class="panel panel-info">
+			<div class="panel-heading">Personal:</div>
+			<div class="panel-body"	>
+			<div class="row">				
+			
+				<div class="col-md-4"><label for="add_vet_addr1">Address1:</label><input id="add_vet_addr1" class="form-control" type="text" ng-model="rslt.addr1"/></div>
+				<div class="col-md-4"><label for="add_vet_addr2">Address2:</label><input id="add_vet_addr2" class="form-control" type="text" ng-model="rslt.addr2"/></div>
+				<div class="col-md-4"><label for="add_vet_addr3">Address3:</label><input id="add_vet_addr3" class="form-control" type="text" ng-model="rslt.addr3"/></div>				
+                <div class="col-md-4"><label for="add_vet_city">city:</label><input id="add_vet_city" class="form-control" type="text" ng-model="rslt.city"/></div>				
+                <div class="col-md-4"><label for="add_vet_state">State:</label><input id="add_vet_state" class="form-control" type="text" ng-model="rslt.state"/></div>				
+			</div></div></div>
+			
+		
+			
+			<div class="panel panel-info">
+			<div class="panel-heading">Service:</div>
+			<div class="panel-body"	>
+			<div class="row">				
+				<div class="col-md-3"><label for="add_vet_rankCode">Rank:</label><select id="add_vet_rankCode" class="form-control" type="text" ng-model="rslt.rankCode">
+				</select></div>
+				<div class="col-md-3"><label for="add_vet_tradeCd">Trade/Branch:</label><input id="add_vet_tradeCd" class="form-control" type="text" ng-model="rslt.tradeCd"/></div>											
+				<div class="col-md-3"><label for="add_vet_dojn">Date of Joining:</label><input id="add_vet_dojn" class="form-control" type="text" ng-model="rslt.dojn"/></div>				
+				<div class="col-md-3"><label for="add_vet_dods">Date of Discharge:</label><input id="add_vet_dods" class="form-control" type="text" ng-model="rslt.dods"/></div>				
+			</div>
+			<div class="row"><br>				</div>
+                <div class="row">				
+                    <div class="col-md-4"> <button id="add_btn_decor" class="form-control btn btn-info" data-target="#vetDecorModal" data-toggle="modal"> Decorations </button></div>
+					<div class="col-md-4"><button id="add_btn_phone" class="form-control btn btn-info" data-target="#vetPhoneModal" data-toggle="modal">Phones </button></div>					
+                </div></div>
+			<div class="row">
+				<div class="col-md-4"><button  class="btn btn-info" ng-click='addVeteran()'> Add </button></div>
+			</div>
+		</form>		
 				
-				</tr>
-			</table>
+		
 		</div>
+	</div>		
+		</div>
+		</div>
+		
+<!-- Modal starts -->
+<div class="modal fade" id="vetDecorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               
+            </div>
+          <div class="modal-body">
+            <form>
+                <div class="row">
+                <div class="col-md-3">
+                <button class="btn btn-primary form-control" ng-click="addDecorModal()"> Add</button>
+                </div></div>
+              <table >
+                  <tbody>
+                <tr ng-repeat="row in decorArr">
+                    <td ><select ng-model="row.decorCode" ng-options="item.code as item.descr for item in lookupRefObj['decor']"></select></td>
+                  </tr>
+                </tbody>
+                </table>      
+              
+              
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            
+          </div>
+        </div>
+      </div>
+    </div>     
+        
+<!-- Phone Modal starts -->
+<div class="modal fade" id="vetPhoneModal" tabindex="-1" role="dialog" aria-labelledby="vetPhoneModalLabel">
+    <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               
+            </div>
+          <div class="modal-body">
+            <form>
+                <div class="row">
+                <div class="col-md-3">
+                <button class="btn btn-primary form-control" ng-click="addPhoneModal()"> Add</button>
+                </div></div>
+              <table>
+                  <tbody>
+                <tr ng-repeat="row in phoneArr">
+                    <td ><label for="vet_phone_type">Phone Type:</label>
+					<select id="vet_phone_type" ng-model="row.phoneType" ng-options="item.code as item.descr for item in lookupRefObj['phone']"></select></td>
+					<td><label for="vet_phone_num">Phone Number:</label>
+					<input type="text" id="vet_phone_num" ng-model='row.phoneNum' placeholder='Phone number'/> </td>
+                </tr>
+                </tbody>
+              </table>      
+              
+              
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>            
+          </div>
+        </div>
+      </div>
+    </div>
+		
+		
 		<script src="/scripts/searchVet_ng.js"></script>
 </div>
 

@@ -1,0 +1,40 @@
+angular.module('searchVet',[]).controller('VetController',function($scope,$http){
+	
+	var z=$scope;
+
+	var rsltObj={};
+	var rsltIndexArr=[];
+	
+	z.init=function(){
+	z.rsltObj={};
+	z.rsltArr=[];	
+	}
+	
+	getCriteria=function () {
+		var critObj={};		
+		critObj=z.criteria;
+		//build an object of criteria		
+		/*critObj.sNum=z.criteria.sNum;
+		critObj.mNum=z.criteria.mNum;
+		critObj.fName=z.criteria.fName;*/	
+		return critObj; 
+		}
+		
+	z.goSearch = function(){		
+	
+		//call a HTTP get with the criteria				
+		console.log(getCriteria());			
+		$http.post('/api/searchVet'
+				,getCriteria())								
+				.success(function(data){ 
+				//fill the rsltObj		    		
+				console.log(data);
+				})
+				.error(function(data)
+						{
+						//alert('Not Found!'); 
+						});
+	}
+	
+});
+		

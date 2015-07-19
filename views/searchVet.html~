@@ -1,38 +1,147 @@
 <html>
 <head>
 <meta charset="utf-8">
-<script src="/scripts/jquery-2.1.3.min.js"></script>
-<script type='text/javascript'>
-function getVet(){
-$.ajax({url:'/api'
-	,success:function (data) {
-		var vets = [];
-		$("#lbl1").text("success"+data[0].location);
-		
-		$.each(data, function (key,val) {
-			vets.push("<h2 id='" + key + "'>" + val + "</h2>" );
-			alert(val);
-				});
-				$( "<h1/>", {
-				    "class": "my-new-list",
-				    html: vets.join( "" )
-				  }).appendTo( "body" );
-				}		
-		
-	,error:function () {
-	$("#lbl1").text("OOps");}	
-	});
-	}
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <script src= "https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+<style>
 
-</script>
+</style>
+
+</head>
 <body>
-    <div id="nav-bar">
-        <a href = "/index.html">Home</a>        
-    </div>
-    <input type="text" id="vetId"/>
-    <input type="button" onclick="getVet();"/>   
-    <h1 id='lbl1'>NA</h1>
-        
+<% include header.html %>
+
+<div id='AddVet' ng-app='searchVet' ng-controller='VetController'>
+<div class="container">
+	<div class="jumbotron">
+	<form class="form">
+	<div class="row">
+	<div class="col-md-4">	
+		<label for="criteria_sNum" >Service Number</label>
+		<input type="text" class="form-control" id="criteria_sNum" ng-model='criteria.sNum'/>
+		</div>
+	<div class="col-md-4">
+		<label for="criteria_mNum" >Membership Number</label>		
+		<input type="text" class="form-control" id="criteria_mNum" ng-model='criteria.mNum'/>
+		</div>		
+	<div class="col-md-4">		
+		<label for="criteria_fName" >Membership Number</label>		
+		<input type="text" class="form-control" id="criteria_fName" ng-model='criteria.fName'/>
+		</div>
+		</div>
+		<div class="row">	
+		<br>			
+		<button class="btn btn-info" value="Search" ng-click="goSearch()"> <span>Search</span></button></div>
+		
+	</form>
+		</div>			
+	</div>
+		<div class="jumbotron">
+
+<div class="row border">
+				<div class="col-md-1" style="background-color: lavender; border-right: solid;">
+					
+					<table id="result_table" class="table table-striped">
+					<tbody ng-repeat="i in rsltArr">
+					<tr >
+					<td ><a href="#" ng-model="i.sNum" >{{i.sNum}}</a></td>					
+					</tr>
+					</tbody>					
+					</table> 
+
+									
+				</div>
+				<div class="col-md-11">
+				<form name="form"  class="form css-form" id="formAddVet">
+			<div class="panel panel-primary">
+			<div class="panel-heading">IDs:</div>
+			<div class="panel-body"	>
+			<div class="row">
+				<div class="col-md-6">
+					<label for="add_vet_sNum">Service Num:</label>
+					<input type="number" id="add_vet_sNum" class="form-control" type="text" ng-model="add.sNum" name="sNum"/>
+										<span style="color:red" ng-show="false && form.$submitted ||(form.sNum.$dirty && (form.sNum.$invalid || form.sNum.$error.required))">Please enter Membership Number</span>
+				</div>
+				<div class="col-md-6">
+					<label for="add_vet_mNum">Membership Num:</label>
+					<input type="number"  id="add_vet_mNum" class="form-control" type="text" ng-model="add.mNum" name="mNum"/>
+					<span style="color:red" ng-show="false&&(form.mNum.$dirty && (form.mNum.$invalid || form.mNum.$error.required))">Please enter Membership Number</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-8">
+					<label for="add_vet_mNum">Aadhaar Num:</label>
+					<input type="number"  id="add_vet_nid" class="form-control" type="text" ng-model="add.nid" name="nid"/>
+				</div>
+			</div>
+			</div></div>
+
+			
+			<div class="panel panel-info">
+			<div class="panel-heading">Personal:</div>
+			<div class="panel-body"	>
+				<div class="col-md-3"><label for="add_vet_title">Title</label><select id="add_vet_title" class="form-control" type="text" ng-model="add.title">
+				<option>Mr</option>
+				<option>Mrs</option>
+				<option>Miss</option>				
+				</select></div>
+				<div class="col-md-3"><label for="add_vet_fName">First Name</label><input id="add_vet_fName" class="form-control" type="text" ng-model="add.fName"/></div>
+				<div class="col-md-3"><label for="add_vet_lName">Last Name</label><input id="add_vet_lName" class="form-control" type="text" ng-model="add.lName"/></div>
+				<div class="col-md-3"><label for="add_vet_gender">Gender</label><select name="gender" id="add_vet_Gender" class="form-control" type="text" ng-model="add.gender" >
+				<option value="M">Male</option>
+				<option value="F">Female</option>
+				</select>
+				<span style="color:red" ng-show="false&&form.$submitted|| (form.gender.$invalid || form.gender.$error.required)">Please Choose a Gender</span>
+				</div>
+				<div class="col-md-3"><label for="add_vet_dobr">Date of Birth:</label><input id="add_vet_dobr" class="form-control" type="text" ng-model="add.dobr"/></div>
+				<div class="col-md-3"><label for="add_vet_dodc">Date of Decease:</label><input id="add_vet_dode" class="form-control" type="text" ng-model="add.dode"/></div>
+			</div>
+			</div>					
+			
+			<div class="panel panel-info">
+			<div class="panel-heading">Personal:</div>
+			<div class="panel-body"	>
+			<div class="row">				
+			
+				<div class="col-md-4"><label for="add_vet_addr1">Address1:</label><input id="add_vet_addr1" class="form-control" type="text" ng-model="add.addr1"/></div>
+				<div class="col-md-4"><label for="add_vet_addr2">Address2:</label><input id="add_vet_addr2" class="form-control" type="text" ng-model="add.addr2"/></div>
+				<div class="col-md-4"><label for="add_vet_addr3">Address3:</label><input id="add_vet_addr3" class="form-control" type="text" ng-model="add.addr3"/></div>				
+                <div class="col-md-4"><label for="add_vet_city">city:</label><input id="add_vet_city" class="form-control" type="text" ng-model="add.city"/></div>				
+                <div class="col-md-4"><label for="add_vet_state">State:</label><input id="add_vet_state" class="form-control" type="text" ng-model="add.state"/></div>				
+			</div></div></div>
+			
+		
+			
+			<div class="panel panel-info">
+			<div class="panel-heading">Service:</div>
+			<div class="panel-body"	>
+			<div class="row">				
+				<div class="col-md-3"><label for="add_vet_rankCode">Rank:</label><select id="add_vet_rankCode" class="form-control" type="text" ng-model="add.rankCode">
+				</select></div>
+				<div class="col-md-3"><label for="add_vet_tradeCd">Trade/Branch:</label><input id="add_vet_tradeCd" class="form-control" type="text" ng-model="add.tradeCd"/></div>											
+				<div class="col-md-3"><label for="add_vet_dojn">Date of Joining:</label><input id="add_vet_dojn" class="form-control" type="text" ng-model="add.dojn"/></div>				
+				<div class="col-md-3"><label for="add_vet_dods">Date of Discharge:</label><input id="add_vet_dods" class="form-control" type="text" ng-model="add.dods"/></div>				
+			</div>
+			<div class="row"><br>				</div>
+                <div class="row">				
+                    <div class="col-md-4"> <button id="add_btn_decor" class="form-control btn btn-info" data-target="#vetDecorModal" data-toggle="modal"> Decorations </button></div>
+					<div class="col-md-4"><button id="add_btn_phone" class="form-control btn btn-info" data-target="#vetPhoneModal" data-toggle="modal">Phones </button></div>					
+                </div></div>
+			<div class="row">
+				<div class="col-md-4"><button  class="btn btn-info" ng-click='addVeteran()'> Add </button></div>
+			</div>
+		</form>		
+				
+		
+		</div>
+	</div>		
+		</div>
+		
+		<script src="/scripts/searchVet_ng.js"></script>
+</div>
+
 </body>
 
 </html>
