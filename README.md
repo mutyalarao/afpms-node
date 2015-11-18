@@ -11,7 +11,7 @@
 
     ### Veteran:
 	
-        * Handle Modifications in Search Page
+        * Handle Modifications in Search Page [Done. Except for the Phone and Decoration pages]
         * Highlight selected Veterans and mark modified Veterans
         * Add Aadhaar field
         * Handle intermittent quotes from CSV
