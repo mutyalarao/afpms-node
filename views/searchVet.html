@@ -40,22 +40,27 @@
 		</div>
 		<div class="container">
 		<div class="jumbotron">
-
+	
+	
 		<div class="row border">
-				<div class="col-md-1" style="background-color: lavender; border-right: solid;">
-					
-					<table id="result_table" class="table table-striped">
-					<tbody ng-repeat="i in rsltArr">
-					<tr >
-					<td ><a href="#formSearchVet" ng-model="i.sNum" ng-click="projectVet($index)" >{{i.sNum}}</a></td>					
-					</tr>
-					</tbody>					
-					</table> 
+			<!--  SEARCH RESULTS-->
+			<div class="col-md-1" style="background-color: lavender; border-right: solid;">
+				
+				<table id="result_table" class="table table-striped">
+				<tbody ng-repeat="i in rsltArr">
+				<tr >
+				<td><span ng-show="isChanged($index)">*</span></td>
+				<td >				
+				<a href="#formSearchVet" ng-model="i.sNum" ng-click="projectVet($index)" >{{i.sNum}}</a></td>					
+				</tr>
+				</tbody>					
+				</table> 
 
-									
-				</div>
-				<div class="col-md-11">
-				<form name="form"  class="form css-form" id="formSearchVet">
+								
+			</div>
+			<!--			PROJECTION PANE			-->
+			<div class="col-md-11">
+			<form name="form"  class="form css-form" id="formSearchVet">
 			<div class="panel panel-primary">
 			<div class="panel-heading">IDs:</div>
 			<div class="panel-body"	>
@@ -88,16 +93,16 @@
 				<option>Mrs</option>
 				<option>Miss</option>				
 				</select></div>
-				<div class="col-md-3"><label for="add_vet_fName">First Name</label><input id="add_vet_fName" class="form-control" type="text" ng-model="rslt.fName"/></div>
-				<div class="col-md-3"><label for="add_vet_lName">Last Name</label><input id="add_vet_lName" class="form-control" type="text" ng-model="rslt.lName"/></div>
-				<div class="col-md-3"><label for="add_vet_gender">Gender</label><select name="gender" id="add_vet_Gender" class="form-control" type="text" ng-model="rslt.gender" >
+				<div class="col-md-3"><label for="add_vet_fName">First Name</label><input id="add_vet_fName" class="form-control" type="text" ng-model="rslt.fName" ng-change="setChanged()"/></div>
+				<div class="col-md-3"><label for="add_vet_lName">Last Name</label><input id="add_vet_lName" class="form-control" type="text" ng-model="rslt.lName" ng-change="setChanged()"/></div>
+				<div class="col-md-3"><label for="add_vet_gender">Gender</label><select name="gender" id="add_vet_Gender" class="form-control" type="text" ng-model="rslt.gender" ng-change="setChanged()">
 				<option value="M">Male</option>
 				<option value="F">Female</option>
 				</select>
 				<span style="color:red" ng-show="false&&form.$submitted|| (form.gender.$invalid || form.gender.$error.required)">Please Choose a Gender</span>
 				</div>
-				<div class="col-md-3"><label for="add_vet_dobr">Date of Birth:</label><input id="add_vet_dobr" class="form-control" type="text" ng-model="rslt.dobr"/></div>
-				<div class="col-md-3"><label for="add_vet_dodc">Date of Decease:</label><input id="add_vet_dode" class="form-control" type="text" ng-model="rslt.dode"/></div>
+				<div class="col-md-3"><label for="add_vet_dobr">Date of Birth:</label><input id="add_vet_dobr" class="form-control" type="text" ng-model="rslt.dobr" ng-change="setChanged()"/></div>
+				<div class="col-md-3"><label for="add_vet_dodc">Date of Decease:</label><input id="add_vet_dode" class="form-control" type="text" ng-model="rslt.dode" ng-change="setChanged()"/></div>
 			</div>
 			</div>					
 			
@@ -106,11 +111,11 @@
 			<div class="panel-body"	>
 			<div class="row">				
 			
-				<div class="col-md-4"><label for="add_vet_addr1">Address1:</label><input id="add_vet_addr1" class="form-control" type="text" ng-model="rslt.addr1"/></div>
-				<div class="col-md-4"><label for="add_vet_addr2">Address2:</label><input id="add_vet_addr2" class="form-control" type="text" ng-model="rslt.addr2"/></div>
-				<div class="col-md-4"><label for="add_vet_addr3">Address3:</label><input id="add_vet_addr3" class="form-control" type="text" ng-model="rslt.addr3"/></div>				
-                <div class="col-md-4"><label for="add_vet_city">city:</label><input id="add_vet_city" class="form-control" type="text" ng-model="rslt.city"/></div>				
-                <div class="col-md-4"><label for="add_vet_state">State:</label><input id="add_vet_state" class="form-control" type="text" ng-model="rslt.state"/></div>				
+				<div class="col-md-4"><label for="add_vet_addr1">Address1:</label><input id="add_vet_addr1" class="form-control" type="text" ng-model="rslt.addr1" ng-change="setChanged()"/></div>
+				<div class="col-md-4"><label for="add_vet_addr2">Address2:</label><input id="add_vet_addr2" class="form-control" type="text" ng-model="rslt.addr2" ng-change="setChanged()"/></div>
+				<div class="col-md-4"><label for="add_vet_addr3">Address3:</label><input id="add_vet_addr3" class="form-control" type="text" ng-model="rslt.addr3" ng-change="setChanged()"/></div>				
+                <div class="col-md-4"><label for="add_vet_city">city:</label><input id="add_vet_city" class="form-control" type="text" ng-model="rslt.city" ng-change="setChanged()"/></div>				
+                <div class="col-md-4"><label for="add_vet_state">State:</label><input id="add_vet_state" class="form-control" type="text" ng-model="rslt.state" ng-change="setChanged()"/></div>				
 			</div></div></div>
 			
 		
@@ -119,11 +124,11 @@
 			<div class="panel-heading">Service:</div>
 			<div class="panel-body"	>
 			<div class="row">				
-				<div class="col-md-3"><label for="add_vet_rankCode">Rank:</label><select id="add_vet_rankCode" class="form-control" type="text" ng-model="rslt.rankCode">
+				<div class="col-md-3"><label for="add_vet_rankCode">Rank:</label><select id="add_vet_rankCode" class="form-control" type="text" ng-model="rslt.rankCode" ng-change="setChanged()">
 				</select></div>
-				<div class="col-md-3"><label for="add_vet_tradeCd">Trade/Branch:</label><input id="add_vet_tradeCd" class="form-control" type="text" ng-model="rslt.tradeCd"/></div>											
-				<div class="col-md-3"><label for="add_vet_dojn">Date of Joining:</label><input id="add_vet_dojn" class="form-control" type="text" ng-model="rslt.dojn"/></div>				
-				<div class="col-md-3"><label for="add_vet_dods">Date of Discharge:</label><input id="add_vet_dods" class="form-control" type="text" ng-model="rslt.dods"/></div>				
+				<div class="col-md-3"><label for="add_vet_tradeCd">Trade/Branch:</label><input id="add_vet_tradeCd" class="form-control" type="text" ng-model="rslt.tradeCd" ng-change="setChanged()"/></div>											
+				<div class="col-md-3"><label for="add_vet_dojn">Date of Joining:</label><input id="add_vet_dojn" class="form-control" type="text" ng-model="rslt.dojn" ng-change="setChanged()"/></div>				
+				<div class="col-md-3"><label for="add_vet_dods">Date of Discharge:</label><input id="add_vet_dods" class="form-control" type="text" ng-model="rslt.dods" ng-change="setChanged()"/></div>				
 			</div>
 			<div class="row"><br>				</div>
                 <div class="row">				
@@ -131,7 +136,8 @@
 					<div class="col-md-4"><button id="add_btn_phone" class="form-control btn btn-info" data-target="#vetPhoneModal" data-toggle="modal">Phones </button></div>					
                 </div></div>
 			<div class="row">
-				<div class="col-md-4"><button  class="btn btn-info" ng-click='addVeteran()'> Add </button></div>
+				<div class="col-md-4"><button  class="btn btn-info" ng-click='resetChanges()'> Reset </button></div>
+				<div class="col-md-4"><button  class="btn btn-info" ng-click='saveChanges()'> Save </button></div>
 			</div>
 		</form>		
 				
@@ -158,7 +164,7 @@
               <table >
                   <tbody>
                 <tr ng-repeat="row in decorArr">
-                    <td ><select ng-model="row.decorCode" ng-options="item.code as item.descr for item in lookupRefObj['decor']"></select></td>
+                    <td ><select ng-model="row.decorCode" ng-options="item.code as item.descr for item in lookupRefObj['decor'] " ng-change="setDecorChanged($index)"></select></td>
                   </tr>
                 </tbody>
                 </table>      
@@ -192,9 +198,9 @@
                   <tbody>
                 <tr ng-repeat="row in phoneArr">
                     <td ><label for="vet_phone_type">Phone Type:</label>
-					<select id="vet_phone_type" ng-model="row.phoneType" ng-options="item.code as item.descr for item in lookupRefObj['phone']"></select></td>
+					<select id="vet_phone_type" ng-model="row.phoneType" ng-options="item.code as item.descr for item in lookupRefObj['phone']" ng-change="setPhoneChanged($index)"></select></td>
 					<td><label for="vet_phone_num">Phone Number:</label>
-					<input type="text" id="vet_phone_num" ng-model='row.phoneNum' placeholder='Phone number'/> </td>
+					<input type="text" id="vet_phone_num" ng-model='row.phoneNum' placeholder='Phone number' ng-change="setPhoneChanged($index)"/> </td>
                 </tr>
                 </tbody>
               </table>      

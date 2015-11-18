@@ -274,4 +274,20 @@ app.post('/api/searchVet',function(req,res){
 	
 });
 
+app.post('/api/updateVet',function(req,res){
+			
+	handler.updateVet(req,res,function(err,data){
+		if(err!=null){	
+			console.log('update failed'+err);			
+		}
+		else{
+			console.log('updateVet - update success');			
+		}
+		res.status(200).type('json');
+		res.end(JSON.stringify({"err":err,"data":data}));
+	});
+	
+});
+
+
 app.listen(3000,function(req,res){console.log('sss');});
